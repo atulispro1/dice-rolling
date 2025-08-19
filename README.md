@@ -1,6 +1,6 @@
 # 🎲 Dice Rolling Game
 
-🌐 **Live Demo:** [Dice Rolling Game](https://yourusername.github.io/dice-rolling/)
+🌐 **Live Demo:** [Dice Rolling Game](https://atulispro1.github.io/dice-rolling/)
 
 🎲 A fun and interactive **Dice Rolling Game** built with **HTML, CSS & JavaScript**.  
 Roll the dice, see the results instantly, and enjoy a simple game of chance!
