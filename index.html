@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rolling Dice Game</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+  /* Background and base */
+  body {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    padding: 3rem 2rem;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Gradient background animation */
+  @keyframes gradientBG {
+    0%, 100% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+  }
+
+  /* Heading */
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+  }
+
+  /* Dice container */
+  .dice-container {
+    margin: 2rem auto;
+    width: 140px;
+    height: 140px;
+    perspective: 1000px;
+  }
+  img.dice {
+    width: 140px;
+    height: 140px;
+    user-select: none;
+    border-radius: 20px;
+    box-shadow:
+      0 0 15px #fff,
+      0 0 40px #fdbb2d,
+      inset 0 0 20px #fdbb2d;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  /* Dice rolling animation */
+  .rolling {
+    animation: rollDiceAnim 0.6s ease forwards;
+  }
+
+  @keyframes rollDiceAnim {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    50% {
+      transform: rotate(720deg) scale(1.2);
+    }
+    100% {
+      transform: rotate(1080deg) scale(1);
+    }
+  }
+
+  /* Buttons styling */
+  .buttons {
+    margin-top: 2rem;
+  }
+  button {
+    font-size: 1.3rem;
+    padding: 1rem 2rem;
+    margin: 0 1.2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    box-shadow: 0 0 15px #ff4b2b;
+    transition: all 0.3s ease;
+    user-select: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  button:hover:not(:disabled) {
+    background: linear-gradient(45deg, #ff4b2b, #ff416c);
+    box-shadow:
+      0 0 25px #ff4b2b,
+      0 0 40px #ff416c;
+    transform: scale(1.05);
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+  }
+
+  /* Message styles with fade in */
+  .message {
+    margin-top: 2.2rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    min-height: 2.2rem;
+    color: #ffffffcc;
+    text-shadow: 0 0 8px #00000088;
+    animation: fadeText 0.6s ease;
+  }
+
+  @keyframes fadeText {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+</style>
+</head>
+<body>
+  <h1>🎲 Rolling Dice Game</h1>
+  <div class="dice-container">
+    <img src="dice-six-faces-one.png" alt="Dice" class="dice" id="diceImage" />
+  </div>
+  <div class="buttons">
+    <button id="rollBtn">ROLL 🎲</button>
+    <button id="quitBtn">QUIT ❌</button>
+  </div>
+  <div class="message" id="gameMessage">Type ROLL or R to roll the dice</div>
+
+<script>
+  const diceImage = document.getElementById('diceImage');
+  const gameMessage = document.getElementById('gameMessage');
+  const rollBtn = document.getElementById('rollBtn');
+  const quitBtn = document.getElementById('quitBtn');
+
+  const diceFaces = [
+    "dice-six-faces-one.png",
+    "dice-six-faces-two.png",
+    "dice-six-faces-three.png",
+    "dice-six-faces-four.png",
+    "dice-six-faces-five.png",
+    "dice-six-faces-six.png",
+  ];
+
+  function rollDice() {
+    rollBtn.disabled = true;  // Disable while animating
+    diceImage.classList.add('rolling');
+
+    setTimeout(() => {
+      const dice = Math.floor(Math.random() * 6);
+      diceImage.src = diceFaces[dice];
+      gameMessage.textContent = `🎲 You rolled a ${dice + 1}!`;
+      diceImage.classList.remove('rolling');
+      rollBtn.disabled = false; // Enable again
+    }, 600);  // Match the CSS animation duration
+  }
+
+  function quitGame() {
+    gameMessage.textContent = '❌ Thanks for playing! Exiting the game...';
+    rollBtn.disabled = true;
+    quitBtn.disabled = true;
+    diceImage.style.filter = 'grayscale(1) blur(1px)';
+  }
+
+  rollBtn.addEventListener('click', rollDice);
+  quitBtn.addEventListener('click', quitGame);
+</script>
+</body>
+</html>
